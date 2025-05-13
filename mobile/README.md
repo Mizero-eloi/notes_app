@@ -29,7 +29,7 @@ Expo Go app on your physical device (optional)
 
 Clone the repository
 
-bashgit clone https://github.com/yourusername/notes-app.git
+bashgit clone https://github.com/Mizero-eloi/notes_app.git
 cd notes-app
 
 Install dependencies
