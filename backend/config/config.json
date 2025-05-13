@@ -1,0 +1,27 @@
+
+{
+    "development": {
+      "username": "apple",
+      "password": "789789",
+      "database": "notes_app_dev",
+      "host": "localhost",
+      "dialect": "postgres"
+    },
+    "test": {
+      "username": "apple",
+      "password": "789789",
+      "database": "notes_app_test",
+      "host": "localhost",
+      "dialect": "postgres"
+    },
+    "production": {
+      "use_env_variable": "DATABASE_URL",
+      "dialect": "postgres",
+      "dialectOptions": {
+        "ssl": {
+          "require": true,
+          "rejectUnauthorized": false
+        }
+      }
+    }
+  }
