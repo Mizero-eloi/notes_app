@@ -16,6 +16,7 @@ import OfflineBanner from '../components/OfflineBanner';
 import { useNetwork } from '../context/NetworkContext';
 import { useNotes } from '../context/NotesContext';
 import useTheme from '../hooks/useTheme';
+import * as api from '../services/api';
 
 export default function CreateNoteScreen() {
   const theme = useTheme();
@@ -35,13 +36,28 @@ export default function CreateNoteScreen() {
     
     try {
       setSaving(true);
-      await addNote({ title, content });
-      setSaving(false);
+      const newNote = { title, content };
+      
+      if (isConnected) {
+        // If online, try to save to server first
+        try {
+          const serverNote = await api.createNote(newNote);
+          await addNote(serverNote); // Add the server-synced note to local state
+        } catch (apiError) {
+          console.error('Failed to save to server, saving offline:', apiError);
+          await addNote(newNote); // Fall back to offline save
+        }
+      } else {
+        // If offline, just save locally
+        await addNote(newNote);
+      }
+      
       navigation.goBack();
     } catch (error) {
       console.error('Failed to save note:', error);
-      setSaving(false);
       Alert.alert('Error', 'Failed to save note. Please try again.');
+    } finally {
+      setSaving(false);
     }
   };
   
